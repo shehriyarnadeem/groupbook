@@ -1,0 +1,583 @@
+[
+  {
+    "id": 0,
+    "text": "New booking 5th June confirm / Price 9k / Checkin: 4pm afternoon / Checkout: morning 10 am",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "5th June, 4pm afternoon",
+        "checkOut": "morning 10 am",
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "checkOut has no date stated in this message \u2014 a model attaching '5th June' to checkOut too is a real bug (checkout is a different, unstated day)."
+  },
+  {
+    "id": 1,
+    "text": "Correction: This booking was 3rd June single night only 10k",
+    "events": [
+      {
+        "eventType": "booking_amended",
+        "guestName": null,
+        "checkIn": "3rd June",
+        "checkOut": null,
+        "amount": 10000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "Booking 5th June, Name: Dawood, Check-in: 5 June 3:00 PM, Check-out: 7 June 12:00 PM, Total Nights: 2, Rate: 10,000 PKR, Total: 20,000 PKR",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": "Dawood",
+        "checkIn": "5 June, 3:00 PM",
+        "checkOut": "7 June, 12:00 PM",
+        "amount": 20000,
+        "currency": "PKR",
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "Extended Booking from 7th June, Name: Dawood, Check-in: 7 June, Check-out: 11 june 12 pm, Rate: 10,000 PKR, Total: 40k",
+    "events": [
+      {
+        "eventType": "booking_amended",
+        "guestName": "Dawood",
+        "checkIn": "7 June",
+        "checkOut": "11 june 12 pm",
+        "amount": 40000,
+        "currency": "PKR",
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "Extended Booking from 11th June, Name: Dawood, Check-in: 11th June, Check-out: 15 june 12 pm, Rate: 10,000 PKR, Total: 40k",
+    "events": [
+      {
+        "eventType": "booking_amended",
+        "guestName": "Dawood",
+        "checkIn": "11th June",
+        "checkOut": "15 june 12 pm",
+        "amount": 40000,
+        "currency": "PKR",
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "[Forwarded image] Date: 18 July, Price: 12k, Checkin: 11 am",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "18 July, 11 am",
+        "checkOut": null,
+        "amount": 12000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "[Forwarded image] 19 july checkin 11:30 am, Huzaifa, Amount 12k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": "Huzaifa",
+        "checkIn": "19 july, 11:30 am",
+        "checkOut": null,
+        "amount": 12000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "text": "[Forwarded image] Date: 28th July, Checkout: 29th 10 am or maybe tonight, Price 9k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "28th July",
+        "checkOut": "29th 10 am or maybe tonight",
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "host themselves states checkout ambiguously ('or maybe tonight') \u2014 that's genuine source ambiguity, not an extraction error, so gold preserves it as-is."
+  },
+  {
+    "id": 12,
+    "text": "26th July booking, Price: 9k, Expense: 1000 cleaning, Net: 8000",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "26th July",
+        "checkOut": null,
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": "Expense: 1000 cleaning, Net: 8000"
+      }
+    ],
+    "note": "SCHEMA GAP: expense (1000) and net (8000) have no field to go in. amount = gross price only."
+  },
+  {
+    "id": 27,
+    "text": "30th till 1st july booking, Nights: 2, Price: 20k, Expense: 1000 cleaning, Net: 19k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "30th",
+        "checkOut": "1st july",
+        "amount": 20000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": "Expense: 1000 cleaning, Net: 19k"
+      }
+    ],
+    "note": "same schema gap as id12 \u2014 expense/net dropped."
+  },
+  {
+    "id": 28,
+    "text": "Bhai 1 aaj raat",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "aaj raat",
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "EDGE CLUSTER (28-31): four separate messages about what's likely 1-2 real bookings. Per-message extraction can't and shouldn't guess how they connect \u2014 that's resolve's job. Graded independently."
+  },
+  {
+    "id": 29,
+    "text": "Aur ek kal raat",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "kal raat",
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "part of edge cluster 28-31, likely a second/different guest."
+  },
+  {
+    "id": 30,
+    "text": "Parso subha chec out",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": "parso subha",
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "part of edge cluster 28-31 \u2014 which booking this checkout belongs to is unknowable from this message alone."
+  },
+  {
+    "id": 31,
+    "text": "Saturday morning check out",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": "Saturday morning",
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "part of edge cluster 28-31 \u2014 likely the English restatement of id30's same fact."
+  },
+  {
+    "id": 37,
+    "text": "10k booking incoming",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": null,
+        "amount": 10000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "this booking is CANCELLED two messages later at id41 \u2014 extract can't know that yet, correctly reported at face value."
+  },
+  {
+    "id": 38,
+    "text": "Couple",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": "Couple"
+      }
+    ],
+    "note": "SCHEMA GAP: 'Couple' is occupancy/guest-type info, no field exists for it. Weakest signal in the gold set \u2014 arguably nothing genuinely extractable here at all."
+  },
+  {
+    "id": 40,
+    "text": "Subha 12 baje checkout karega",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": "Subha 12 baje",
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "TRAP: 'Subha' means 'morning' in Urdu, NOT a guest name. The model has already misread this as guestName twice \u2014 this is a real regression test."
+  },
+  {
+    "id": 41,
+    "text": "No arahi",
+    "events": [
+      {
+        "eventType": "booking_cancelled",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "THE critical case \u2014 cancellation with almost no other info. Must produce an event, not an empty array."
+  },
+  {
+    "id": 45,
+    "text": "2nd August booking: Name: Hammad, Price: 12, Via: Airbnb app",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": "Hammad",
+        "checkIn": "2nd August",
+        "checkOut": null,
+        "amount": 12,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "amount stated literally as '12' with no unit \u2014 gold keeps it literal per 'never invent a value', even though 12k is almost certainly meant."
+  },
+  {
+    "id": 46,
+    "text": "[Forwarded image] Price 9k, Booking: 3rd August",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "3rd August",
+        "checkOut": null,
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "text": "Bro ajj 3 baje checkin Kia he",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "ajj 3 baje",
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "TRAP: raw relative-time phrase must stay as-is ('ajj 3 baje'), not resolved to a calendar date/time \u2014 that's a separate deterministic step, not extract's job."
+  },
+  {
+    "id": 58,
+    "text": "Checkout Subha he",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": "Subha",
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "second occurrence of the 'Subha' = morning trap, not a guest name."
+  },
+  {
+    "id": 59,
+    "text": "3rd August checkin",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "3rd August",
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "text": "6th August booking: Checkin: 7 pm, Checkout: 12 pm 7th August, Persons: 2, Price: 10k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "6th August, 7 pm",
+        "checkOut": "12 pm 7th August",
+        "amount": 10000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": "Persons: 2"
+      }
+    ],
+    "note": "SCHEMA GAP: 'Persons: 2' has no field, same gap as id38. checkOut kept in source word order (time before date) \u2014 gold previously reordered this incorrectly, model was right."
+  },
+  {
+    "id": 63,
+    "text": "Extending for 2 days at price 12k payment not received yet",
+    "events": [
+      {
+        "eventType": "booking_amended",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": null,
+        "amount": 12000,
+        "currency": null,
+        "paymentStatus": "pending",
+        "notes": null
+      }
+    ],
+    "note": "THE motivating schema gap: this message explicitly states payment is PENDING, but there is no field to distinguish 'received' from 'pending' \u2014 amount alone conflates the two states."
+  },
+  {
+    "id": 67,
+    "text": "Not yet September",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": null,
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "REVISED: 'Not yet September' has no payment keyword and no correction/extension keyword \u2014 extract cannot know this refers to id63's pending payment without cross-message context it isn't allowed to use. Original gold (booking_amended + pending) was inconsistent with the id57/58/59 standard. Defaulting to booking_created, all else null."
+  },
+  {
+    "id": 84,
+    "text": "8th August night payment received booking 10k / Numan has checkout",
+    "events": [
+      {
+        "eventType": "payment_received",
+        "guestName": "Numan",
+        "checkIn": "8th August night",
+        "checkOut": null,
+        "amount": 10000,
+        "currency": null,
+        "paymentStatus": "received"
+      }
+    ],
+    "note": "Revised: checkout status is DERIVED from dates passing, not a separate fact to extract \u2014 folded guestName into the payment event instead of a second event."
+  },
+  {
+    "id": 85,
+    "text": "7th August night payment received 10k",
+    "events": [
+      {
+        "eventType": "payment_received",
+        "guestName": null,
+        "checkIn": "7th August night",
+        "checkOut": null,
+        "amount": 10000,
+        "currency": null,
+        "paymentStatus": "received",
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "text": "[Forwarded doc] Booking 13th August till 22nd August, Nights: 10, Name: Tahir Rehman, Price: 88k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": "Tahir Rehman",
+        "checkIn": "13th August",
+        "checkOut": "22nd August",
+        "amount": 88000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "text": "[Forwarded image] Booking 24th August, Price: 9k, Checkin: 2pm, Checkout: 25th 12 pm",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "24th August, 2pm",
+        "checkOut": "25th, 12 pm",
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "text": "Booking 29th August, Price: 7k, Name: ali",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": "ali",
+        "checkIn": "29th August",
+        "checkOut": null,
+        "amount": 7000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "text": "[Forwarded image] 29th August booking, Price: 9k, Checkin: 4 pm",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "29th August, 4 pm",
+        "checkOut": null,
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "conflicts with id95 \u2014 same date, different price/name. Extract correctly reports THIS message's own facts only; reconciling the two is resolve's job entirely."
+  },
+  {
+    "id": 98,
+    "text": "30th August booking, Checkin 12 pm, Price: 9k",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "30th August, 12 pm",
+        "checkOut": null,
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "text": "Extended 31st August",
+    "events": [
+      {
+        "eventType": "booking_amended",
+        "guestName": null,
+        "checkIn": null,
+        "checkOut": "31st August",
+        "amount": null,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "Structurally ambiguous without id98 \u2014 'extended' could mean pushed-back checkout OR a new checkin continuation. checkOut chosen as the more common real-world reading. This is genuinely resolve's problem, not extract's; don't chase the model if it swaps fields here."
+  },
+  {
+    "id": 102,
+    "text": "2nd September booking, Price: 9k, Checkin: 3 pm, Checkout: 12 pm",
+    "events": [
+      {
+        "eventType": "booking_created",
+        "guestName": null,
+        "checkIn": "2nd September, 3 pm",
+        "checkOut": "12 pm",
+        "amount": 9000,
+        "currency": null,
+        "paymentStatus": null,
+        "notes": null
+      }
+    ],
+    "note": "same trap as id0 \u2014 checkout has no date stated, only a time. Correct gold does NOT attach '2nd September' to checkOut."
+  }
+]

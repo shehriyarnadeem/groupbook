@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Groupbook</title>
+<style>
+  :root {
+    --bg: #fbfaf8; --panel: #fff; --line: #e6e2dc; --ink: #1c1a17;
+    --muted: #6f6a63; --accent: #b4552d; --ok: #2f6b4f; --warn: #8a6d1f;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  header { margin-bottom: 28px; }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: 14px; }
+
+  .stats { display: flex; gap: 28px; flex-wrap: wrap; margin: 20px 0 28px;
+           padding: 16px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .stat b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+  .tab { padding: 9px 16px; font-size: 14px; border: none; background: none; cursor: pointer;
+         color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.on { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab .count { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 9px;
+                background: var(--line); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .tab.on .count { background: var(--accent); color: #fff; }
+
+  .panel { display: none; }
+  .panel.on { display: block; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--panel);
+          border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+       color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .owed { color: var(--accent); font-weight: 600; }
+  .paid { color: var(--ok); }
+  .dim { color: var(--muted); }
+  .flag { font-size: 11px; color: var(--warn); }
+
+  .item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+          padding: 16px 18px; margin-bottom: 12px; }
+  .item.done { opacity: .45; }
+  .item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .mid { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .msg { margin: 10px 0; padding: 10px 12px; background: var(--bg); border-left: 2px solid var(--line);
+         border-radius: 0 6px 6px 0; font-size: 14px; white-space: pre-wrap; }
+  .why { font-size: 13px; color: var(--muted); }
+  .acts { margin-top: 12px; display: flex; gap: 8px; }
+  button.act { padding: 6px 13px; font-size: 13px; border: 1px solid var(--line);
+               background: var(--panel); border-radius: 6px; cursor: pointer; color: var(--ink); }
+  button.act:hover { border-color: var(--accent); color: var(--accent); }
+  .empty { text-align: center; padding: 40px; color: var(--muted); }
+  footer { margin-top: 32px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Groupbook</h1>
+    <div class="sub">WhatsApp booking group → ledger</div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="bookings">Bookings</button>
+    <button class="tab" data-p="monthly">Monthly</button>
+    <button class="tab" data-p="review">Needs review <span class="count" id="rc"></span></button>
+  </div>
+
+  <div class="panel on" id="p-bookings"></div>
+  <div class="panel" id="p-monthly"></div>
+  <div class="panel" id="p-review"></div>
+
+  <footer>Every figure traces to a source message. Nothing was inferred that the chat didn't state.</footer>
+</div>
+
+<script>
+const DATA = {"bookings":[{"bookingKey":"2026-6-3","guestName":null,"billed":0,"paid":0,"refunded":0,"cancelled":false,"messageIds":[0]},{"bookingKey":"2026-6-5","guestName":"Dawood","billed":20000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[2]},{"bookingKey":"2026-7-18","guestName":null,"billed":12000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[6]},{"bookingKey":"2026-7-19","guestName":"Huzaifa","billed":12000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[8]},{"bookingKey":"2026-7-26","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[12]},{"bookingKey":"2026-7-28","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[10]},{"bookingKey":"2026-7-30","guestName":null,"billed":20000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[27,28]},{"bookingKey":"2026-8-2","guestName":"Hammad","billed":12,"paid":0,"refunded":0,"cancelled":false,"messageIds":[45]},{"bookingKey":"2026-8-3","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[46,57,59]},{"bookingKey":"2026-8-6","guestName":null,"billed":10000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[61,67]},{"bookingKey":"2026-8-7","guestName":null,"billed":0,"paid":10000,"refunded":0,"cancelled":false,"messageIds":[85]},{"bookingKey":"2026-8-8","guestName":"Numan","billed":0,"paid":10000,"refunded":0,"cancelled":false,"messageIds":[84]},{"bookingKey":"2026-8-13","guestName":"Tahir Rehman","billed":88000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[89]},{"bookingKey":"2026-8-24","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[91]},{"bookingKey":"2026-8-29","guestName":"ali","billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[95,96]},{"bookingKey":"2026-8-30","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[98]},{"bookingKey":"2026-9-2","guestName":null,"billed":9000,"paid":0,"refunded":0,"cancelled":false,"messageIds":[102]}],"totals":[{"month":"2026-6","bookings":2,"billed":20000,"paid":0,"refunded":0,"outstanding":20000},{"month":"2026-7","bookings":5,"billed":62000,"paid":0,"refunded":0,"outstanding":62000},{"month":"2026-8","bookings":9,"billed":134012,"paid":20000,"refunded":0,"outstanding":114012},{"month":"2026-9","bookings":1,"billed":9000,"paid":0,"refunded":0,"outstanding":9000}],"review":[{"messageId":1,"reason":"amendment states 10000 — is this ADDITIONAL to the booking, or does it REPLACE the total?","message":{"date":"6/5/26","text":"Correction:\nThis booking was 3rd June single night only 10k","sender":"You"}},{"messageId":4,"reason":"amendment states 40000 — is this ADDITIONAL to the booking, or does it REPLACE the total?","message":{"date":"6/7/26","text":"Extended Booking from \n7th June \nName: Dawood \nCheck-in: 7 June,\nCheck-out: 11 june 12 pm\nTotal Nights: 4\nRate Per Night: 10,000 PKR\nTotal: 40k","sender":"You"}},{"messageId":5,"reason":"amendment states 40000 — is this ADDITIONAL to the booking, or does it REPLACE the total?","message":{"date":"6/12/26","text":"Extended Booking from \n11th June \nName: Dawood \nCheck-in: 11th June,\nCheck-out: 15 june 12 pm\nTotal Nights: 4\nRate Per Night: 10,000 PKR\nTotal: 40k","sender":"You"}},{"messageId":29,"reason":"states 2026-7-31 — closest match is booking 2026-7-30 (20000) from message 27, but the dates don't line up exactly","message":{"date":"7/30/26","text":"Aur ek kal raat","sender":"Uzair Sheikh"}},{"messageId":30,"reason":"states 2026-8-1 — closest match is booking 2026-7-30 (20000) from message 27, but the dates don't line up exactly","message":{"date":"7/30/26","text":"Parso subha chec out","sender":"Uzair Sheikh"}},{"messageId":31,"reason":"states 2026-8-1 — closest match is booking 2026-7-30 (20000) from message 27, but the dates don't line up exactly","message":{"date":"7/30/26","text":"Saturday morning check out","sender":"Uzair Sheikh"}},{"messageId":37,"reason":"no booking within 24h states both a date and a price","message":{"date":"8/1/26","text":"10k booking incoming","sender":"You"}},{"messageId":38,"reason":"no booking within 24h states both a date and a price","message":{"date":"8/1/26","text":"Couple","sender":"You"}},{"messageId":40,"reason":"no booking within 24h states both a date and a price","message":{"date":"8/1/26","text":"Subha 12 baje checkout karega","sender":"You"}},{"messageId":41,"reason":"cancellation — the message doesn't say which booking it cancels","message":{"date":"8/1/26","text":"No arahi","sender":"You"}},{"messageId":58,"reason":"time-only detail (no date stated) — could belong to booking 2026-8-2 (12) from message 45 or booking 2026-8-3 (9000) from message 46","message":{"date":"8/3/26","text":"Checkout Subha he","sender":"You"}},{"messageId":63,"reason":"amendment states 12000 — is this ADDITIONAL to the booking, or does it REPLACE the total?","message":{"date":"8/7/26","text":"Extending for 2 days at price 12k payment not received yet","sender":"You"}},{"messageId":99,"reason":"states 2026-8-31 — closest match is booking 2026-8-30 (9000) from message 98, but the dates don't line up exactly","message":{"date":"8/31/26","text":"Extended 31st August","sender":"You"}}],"stats":{"messages":66,"relevant":35,"events":35,"committed":22}};
+const money = n => n.toLocaleString("en-PK");
+
+document.getElementById("stats").innerHTML = [
+  ["messages read", DATA.stats.messages],
+  ["booking-relevant", DATA.stats.relevant],
+  ["events extracted", DATA.stats.events],
+  ["auto-committed", DATA.stats.committed],
+  ["bookings found", DATA.bookings.length],
+].map(([l, v]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+
+document.getElementById("rc").textContent = DATA.review.length;
+
+// bookings
+document.getElementById("p-bookings").innerHTML = `<table>
+  <tr><th>Date</th><th>Guest</th><th class="num">Billed</th><th class="num">Paid</th><th class="num">Balance</th></tr>
+  ${DATA.bookings.map(b => {
+    const owed = b.billed - b.paid;
+    const bal = b.cancelled ? '<span class="dim">cancelled</span>'
+      : owed > 0 ? `<span class="owed">${money(owed)} owed</span>`
+      : owed < 0 ? `<span class="flag">${money(-owed)} unmatched</span>`
+      : '<span class="paid">settled</span>';
+    return `<tr>
+      <td>${b.bookingKey}</td>
+      <td>${b.guestName ?? '<span class="dim">no name given</span>'}</td>
+      <td class="num">${b.billed ? money(b.billed) : '<span class="dim">—</span>'}</td>
+      <td class="num">${b.paid ? money(b.paid) : '<span class="dim">—</span>'}</td>
+      <td class="num">${bal}</td>
+    </tr>`;
+  }).join("")}
+</table>`;
+
+// monthly
+const g = DATA.totals.reduce((a, m) => ({ billed: a.billed + m.billed, paid: a.paid + m.paid }), { billed: 0, paid: 0 });
+document.getElementById("p-monthly").innerHTML = `<table>
+  <tr><th>Month</th><th class="num">Bookings</th><th class="num">Billed</th><th class="num">Paid</th><th class="num">Outstanding</th></tr>
+  ${DATA.totals.map(m => `<tr>
+    <td>${m.month}</td>
+    <td class="num">${m.bookings}</td>
+    <td class="num">${money(m.billed)}</td>
+    <td class="num">${money(m.paid)}</td>
+    <td class="num owed">${money(m.outstanding)}</td>
+  </tr>`).join("")}
+  <tr><td><b>Total</b></td><td></td>
+    <td class="num"><b>${money(g.billed)}</b></td>
+    <td class="num"><b>${money(g.paid)}</b></td>
+    <td class="num owed"><b>${money(g.billed - g.paid)}</b></td></tr>
+</table>`;
+
+// review
+document.getElementById("p-review").innerHTML = DATA.review.length === 0
+  ? '<div class="empty">Nothing to review.</div>'
+  : DATA.review.map((r, i) => `<div class="item" id="rv${i}">
+      <div class="item-head">
+        <div class="mid">message ${r.messageId} · ${r.message.date}${r.message.sender ? ' · ' + r.message.sender : ''}</div>
+      </div>
+      <div class="msg">${r.message.text.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</div>
+      <div class="why">${r.reason.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</div>
+      <div class="acts">
+        <button class="act" onclick="settle(${i})">Mark handled</button>
+        <button class="act" onclick="settle(${i})">Not a booking</button>
+      </div>
+    </div>`).join("");
+
+function settle(i) {
+  document.getElementById("rv" + i).classList.add("done");
+  const left = DATA.review.length - document.querySelectorAll(".item.done").length;
+  document.getElementById("rc").textContent = left;
+}
+
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("on"));
+  document.querySelectorAll(".panel").forEach(x => x.classList.remove("on"));
+  t.classList.add("on");
+  document.getElementById("p-" + t.dataset.p).classList.add("on");
+});
+</script>
+</body>
+</html>

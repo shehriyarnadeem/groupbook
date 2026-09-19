@@ -1,0 +1,332 @@
+[
+  {
+    "id": 0,
+    "relevant": true,
+    "reason": "booking details"
+  },
+  {
+    "id": 1,
+    "relevant": true,
+    "reason": "booking details updated"
+  },
+  {
+    "id": 2,
+    "relevant": true,
+    "reason": "contains booking details"
+  },
+  {
+    "id": 4,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 5,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 6,
+    "relevant": true,
+    "reason": "contains booking details"
+  },
+  {
+    "id": 8,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 10,
+    "relevant": true,
+    "reason": "contains booking details"
+  },
+  {
+    "id": 12,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 13,
+    "relevant": false,
+    "reason": "question, no booking fact"
+  },
+  {
+    "id": 14,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 15,
+    "relevant": false,
+    "reason": "No booking info"
+  },
+  {
+    "id": 16,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 17,
+    "relevant": false,
+    "reason": "question only"
+  },
+  {
+    "id": 18,
+    "relevant": true,
+    "reason": "Guest hasn't arrived yet"
+  },
+  {
+    "id": 19,
+    "relevant": false,
+    "reason": "No booking info"
+  },
+  {
+    "id": 20,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 21,
+    "relevant": false,
+    "reason": "question about availability"
+  },
+  {
+    "id": 22,
+    "relevant": true,
+    "reason": "Possible booking confirmation"
+  },
+  {
+    "id": 27,
+    "relevant": true,
+    "reason": "booking details"
+  },
+  {
+    "id": 28,
+    "relevant": true,
+    "reason": "booking request for tonight"
+  },
+  {
+    "id": 29,
+    "relevant": true,
+    "reason": "Possible booking request"
+  },
+  {
+    "id": 30,
+    "relevant": true,
+    "reason": "check-out date mentioned"
+  },
+  {
+    "id": 31,
+    "relevant": true,
+    "reason": "check-out time"
+  },
+  {
+    "id": 32,
+    "relevant": false,
+    "reason": "question about date"
+  },
+  {
+    "id": 34,
+    "relevant": false,
+    "reason": "question only"
+  },
+  {
+    "id": 36,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 37,
+    "relevant": true,
+    "reason": "booking incoming"
+  },
+  {
+    "id": 38,
+    "relevant": false,
+    "reason": "Not a booking fact"
+  },
+  {
+    "id": 39,
+    "relevant": false,
+    "reason": "No booking fact yet"
+  },
+  {
+    "id": 40,
+    "relevant": true,
+    "reason": "check-out time"
+  },
+  {
+    "id": 41,
+    "relevant": false,
+    "reason": "No booking info"
+  },
+  {
+    "id": 42,
+    "relevant": false,
+    "reason": "question only"
+  },
+  {
+    "id": 43,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 44,
+    "relevant": true,
+    "reason": "guest name mentioned"
+  },
+  {
+    "id": 45,
+    "relevant": true,
+    "reason": "booking details"
+  },
+  {
+    "id": 46,
+    "relevant": true,
+    "reason": "contains booking date and price"
+  },
+  {
+    "id": 48,
+    "relevant": false,
+    "reason": "question about price"
+  },
+  {
+    "id": 49,
+    "relevant": false,
+    "reason": "question, no new fact"
+  },
+  {
+    "id": 54,
+    "relevant": true,
+    "reason": "Possible guest name"
+  },
+  {
+    "id": 55,
+    "relevant": false,
+    "reason": "question, no fact"
+  },
+  {
+    "id": 56,
+    "relevant": false,
+    "reason": "no booking info"
+  },
+  {
+    "id": 57,
+    "relevant": false,
+    "reason": "question about checkin time"
+  },
+  {
+    "id": 58,
+    "relevant": true,
+    "reason": "check-out noted"
+  },
+  {
+    "id": 59,
+    "relevant": true,
+    "reason": "check-in date"
+  },
+  {
+    "id": 60,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 61,
+    "relevant": true,
+    "reason": "contains booking details"
+  },
+  {
+    "id": 63,
+    "relevant": true,
+    "reason": "extension details"
+  },
+  {
+    "id": 64,
+    "relevant": false,
+    "reason": "no booking info"
+  },
+  {
+    "id": 65,
+    "relevant": false,
+    "reason": "asks about payment status"
+  },
+  {
+    "id": 66,
+    "relevant": false,
+    "reason": "question about availability"
+  },
+  {
+    "id": 67,
+    "relevant": false,
+    "reason": "No booking info"
+  },
+  {
+    "id": 68,
+    "relevant": false,
+    "reason": "no booking info"
+  },
+  {
+    "id": 84,
+    "relevant": true,
+    "reason": "payment and checkout info"
+  },
+  {
+    "id": 85,
+    "relevant": true,
+    "reason": "payment received for 7th August"
+  },
+  {
+    "id": 86,
+    "relevant": true,
+    "reason": "No booking yet"
+  },
+  {
+    "id": 87,
+    "relevant": false,
+    "reason": "no booking fact"
+  },
+  {
+    "id": 88,
+    "relevant": false,
+    "reason": "question only"
+  },
+  {
+    "id": 89,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 91,
+    "relevant": true,
+    "reason": "contains booking details"
+  },
+  {
+    "id": 93,
+    "relevant": true,
+    "reason": "new bookings start date"
+  },
+  {
+    "id": 95,
+    "relevant": true,
+    "reason": "booking details"
+  },
+  {
+    "id": 96,
+    "relevant": true,
+    "reason": "booking details"
+  },
+  {
+    "id": 98,
+    "relevant": true,
+    "reason": "booking details provided"
+  },
+  {
+    "id": 99,
+    "relevant": true,
+    "reason": "booking extension date"
+  },
+  {
+    "id": 102,
+    "relevant": true,
+    "reason": "booking details"
+  }
+]
